@@ -22,6 +22,7 @@
         var renderer,
             camera,
             light,
+            light2,
             scene,
             stats;
         var width = window.innerWidth,
@@ -47,12 +48,12 @@
 
         function initCamera() {
             camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 10000);
-            camera.position.z = 10;
-            camera.position.y = -10;
-            // camera.position.x = -50;
+            camera.position.z = 30;
+            camera.position.y = -30;
+            camera.position.x = 30;
             // camera.up.x = 0;
             // camera.up.y = 1;
-            // camera.up.z = 1;
+            camera.up.z = 1;
             camera.lookAt(0, 0, 0);
 
         }
@@ -62,16 +63,69 @@
         }
 
         function initLight() {
-            light = new THREE.AmbientLight();
-            // light.position.set(100, 100, 200);
-            scene.add(light);
+           
+
+
+            // light = new THREE.AmbientLight();
+           light2 = new THREE.DirectionalLight(0xffffff, 1);
+            light2.position.set(100, 0, 100);
+            scene.add(light2);
         }
 
         function initObject() {
 
-            var geometry = new THREE.BoxGeometry(2,2,2)
-            var material = new THREE.MeshLambertMaterial({ color:'blue'});
-            var mesh = new THREE.Mesh(geometry, material);
+              //网格
+            var gridGeometry = new THREE.Geometry();
+            gridGeometry.vertices.push(new THREE.Vector3(0, 40, 0), new THREE.Vector3(0, -40, 0))
+
+
+
+            for (var i = 0; i <= 20; i++) {
+                var gridLineY = new THREE.Line(gridGeometry, new THREE.LineBasicMaterial({
+                    color: 0xcccccc,
+                    opacity: .1
+                }))
+                gridLineY.position.x = -40 + (i * 4);
+                scene.add(gridLineY);
+
+                var gridLineX = new THREE.Line(gridGeometry, new THREE.LineBasicMaterial({
+                    color: 0xcccccc,
+                    opacity: .1
+                }))
+                gridLineX.rotation.z = Math.PI / 2
+                gridLineX.position.y = -40 + (i * 4);
+                scene.add(gridLineX);
+            }
+
+
+
+            //坐标轴
+            var geometry = new THREE.Geometry();
+            var material = new THREE.LineBasicMaterial({
+                vertexColors: true
+            });
+            // var material = new THREE.LineBasicMaterial({color:0xFFFFFF});
+            var color1 = new THREE.Color('red'),
+                color2 = new THREE.Color('blue'),
+                color3 = new THREE.Color('green');
+            var p1 = new THREE.Vector3(-100, 0, 0),
+                p2 = new THREE.Vector3(100, 0, 0),
+                p3 = new THREE.Vector3(0, 100, 0),
+                p4 = new THREE.Vector3(0, -100, 0),
+                p5 = new THREE.Vector3(0, 0, 100),
+                p6 = new THREE.Vector3(0, 0, -100);
+            geometry.vertices.push(p1, p2, p3, p4, p5, p6);
+            geometry.colors.push(color1, color1, color2, color2, color3, color3);
+            var line = new THREE.LineSegments(geometry, material);
+            scene.add(line)
+
+
+            var cube = new THREE.BoxGeometry(10,10,10)
+            var cubematerial = new THREE.MeshLambertMaterial({ color:'blue'});
+            var mesh = new THREE.Mesh(cube, cubematerial);
+            // mesh.position.set(new THREE.Vector3(50, 50, 50))
+            
+            mesh.position.z = 5;
             scene.add(mesh)
 
 
