@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Z-UA-Compatible" content="ie=edge">
-    <script src="./three103.js"></script>
-    <script src="./DDSLoader.js"></script>
-    <script src="./OBJLoader.js"></script>
-    <script src="./MTLLoader.js"></script>
-    <script src="./stats.js"></script>
+    <script src="../js/three103.js"></script>
+    <script src="../js/loader/DDSLoader.js"></script>
+    <script src="../js/loader/OBJLoader.js"></script>
+    <script src="../js/loader/MTLLoader.js"></script>
+    <script src="../js/stats.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/73/three.js"></script> -->
     <title>mode</title>
     <style>
@@ -76,14 +76,14 @@
 
             new THREE.MTLLoader()
                 // .setPath('./mode')
-                .load('./mode/2.mtl', function (materials) {
+                .load('../models/sword.mtl', function (materials) {
 
                     materials.preload();
 
                     new THREE.OBJLoader()
                         .setMaterials(materials)
                         // .setPath('./mode')
-                        .load('./mode/2.obj', function (object) {
+                        .load('../models/sword.obj', function (object) {
                             obj = object
                             object.position.y = - 95;
                             scene.add(object);
