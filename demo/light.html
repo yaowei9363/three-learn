@@ -8,6 +8,7 @@
     <script src="../js/three103.js"></script>
     <script src="../js/OrbitControls.js"></script>
     <script src="../js/stats.js"></script>
+    <script src="../js/dat.gui.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/73/three.js"></script> -->
     <title>light</title>
     <style>
@@ -24,11 +25,16 @@
             camera,
             directionalLight,
             ambientLight,
+            pointLight,
             scene,
-            stats;
+            stats,
+            controls,
+            position,
+            lightMesh;
         var width = window.innerWidth,
-            height = window.innerHeight;
-        var controls;
+            height = window.innerHeight
+            gui = new dat.GUI();
+       
         function initThree() {
             renderer = new THREE.WebGLRenderer({
                 antialias: true
@@ -61,12 +67,31 @@
            
 
             //环境光
-            ambientLight = new THREE.AmbientLight('green');
-            directionalLight = new THREE.DirectionalLight('red');
-            directionalLight.position.set(-100, 50, 100);
-            scene.add(ambientLight);
-            scene.add(directionalLight);
+            ambientLight = new THREE.AmbientLight();
+            //方向光
+            // directionalLight = new THREE.DirectionalLight('red');
+            // directionalLight.position.set(-100, 50, 100);
+
+            //点光源
+            pointLight = new THREE.PointLight('red');
+            pointLight.position.set(0, 0, 0);
+            // scene.add(ambientLight);
+            // scene.add(directionalLight);
+            scene.add(pointLight);
+            position = {
+                x:0,
+                y:0,
+                z:0
+            }
+            
+            gui.add(position,'x',-50,50).onChange(changePosi)
+            gui.add(position,'y', -50, 50).onChange(changePosi)
+            gui.add(position,'z', -50, 50).onChange(changePosi)
         }
+        function changePosi() {
+                pointLight.position.set(position.x, position.y, position.z)
+                lightMesh.position.set(position.x, position.y, position.z)
+            }
         function initControls(){
             controls = new THREE.OrbitControls(camera, renderer.domElement);
                // 如果使用animate方法时，将此函数删除
@@ -91,27 +116,27 @@
         function initObject() {
 
               //网格
-            var gridGeometry = new THREE.Geometry();
-            gridGeometry.vertices.push(new THREE.Vector3(80, 0, 0), new THREE.Vector3(-80, 0, 0))
+            // var gridGeometry = new THREE.Geometry();
+            // gridGeometry.vertices.push(new THREE.Vector3(80, 0, 0), new THREE.Vector3(-80, 0, 0))
 
 
 
-            for (var i = 0; i <=40; i++) {
-                var gridLineX = new THREE.Line(gridGeometry, new THREE.LineBasicMaterial({
-                    color: 0xcccccc,
-                    opacity: .1
-                }))
-                gridLineX.position.z = -80 + (i * 4);
-                scene.add(gridLineX);
+            // for (var i = 0; i <=40; i++) {
+            //     var gridLineX = new THREE.Line(gridGeometry, new THREE.LineBasicMaterial({
+            //         color: 0xcccccc,
+            //         opacity: .1
+            //     }))
+            //     gridLineX.position.z = -80 + (i * 4);
+            //     scene.add(gridLineX);
 
-                var gridLineZ = new THREE.Line(gridGeometry, new THREE.LineBasicMaterial({
-                    color: 0xcccccc,
-                    opacity: .1
-                }))
-                gridLineZ.rotation.y = Math.PI / 2
-                gridLineZ.position.x = -80 + (i * 4);
-                scene.add(gridLineZ);
-            }
+            //     var gridLineZ = new THREE.Line(gridGeometry, new THREE.LineBasicMaterial({
+            //         color: 0xcccccc,
+            //         opacity: .1
+            //     }))
+            //     gridLineZ.rotation.y = Math.PI / 2
+            //     gridLineZ.position.x = -80 + (i * 4);
+            //     scene.add(gridLineZ);
+            // }
 
 
 
@@ -166,23 +191,47 @@
             
             //立方体
            
-            var cubematerial = new THREE.MeshLambertMaterial();
+            var cubematerial = new THREE.MeshLambertMaterial({color:'cccccc'});
             var cube = new THREE.BoxGeometry(10, 10, 10)
             var mesh = new THREE.Mesh(cube, cubematerial);
-              mesh.position.set(0, 5, 0)
+              mesh.position.set(0, 0, 0)
             scene.add(mesh)
 
             var cube2 = new THREE.BoxGeometry(10, 10, 10)
             var mesh2 = new THREE.Mesh(cube2, cubematerial);
-            mesh2.position.set(-15,5,0)
+            mesh2.position.set(-20,0,0)
             scene.add(mesh2)
 
             var cube3 = new THREE.BoxGeometry(10, 10, 10)
             var mesh3 = new THREE.Mesh(cube3, cubematerial);
-            mesh3.position.set(15, 5, 0)
+            mesh3.position.set(20, 0, 0)
             scene.add(mesh3)
 
+             var cube4 = new THREE.BoxGeometry(10, 10, 10)
+            var mesh4 = new THREE.Mesh(cube4, cubematerial);
+            mesh4.position.set(0, 0, 20)
+            scene.add(mesh4)
 
+            var cube5 = new THREE.BoxGeometry(10, 10, 10)
+            var mesh5 = new THREE.Mesh(cube5, cubematerial);
+            mesh5.position.set(0, 0, -20)
+            scene.add(mesh5)
+
+            var cube6 = new THREE.BoxGeometry(10, 10, 10)
+            var mesh6 = new THREE.Mesh(cube6, cubematerial);
+            mesh6.position.set(0, -20, 0)
+            scene.add(mesh6)
+
+            var cube7 = new THREE.BoxGeometry(10, 10, 10)
+            var mesh7 = new THREE.Mesh(cube7, cubematerial);
+            mesh7.position.set(0, 20, 0)
+            scene.add(mesh7)
+
+            var lightSphere = new THREE.SphereGeometry(1, 10, 10);
+            var lightMaterial = new THREE.MeshBasicMaterial({color:'red'});
+            lightMesh = new THREE.Mesh(lightSphere, lightMaterial);
+            lightMesh.position.set(0,0,0)
+            scene.add(lightMesh);
 
 
            
@@ -191,10 +240,10 @@
         function animation(){
             // camera.position.x +=0.05;
            
-            directionalLight.position.x+=1
-            if(directionalLight.position.x>=100){
-                 directionalLight.position.x = -100
-            }
+            // directionalLight.position.x+=1
+            // if(directionalLight.position.x>=100){
+            //      directionalLight.position.x = -100
+            // }
             requestAnimationFrame(animation)
             controls.update();
             renderer.render(scene, camera);
