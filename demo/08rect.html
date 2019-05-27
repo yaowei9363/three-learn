@@ -8,7 +8,7 @@
     <script src="../js/three103.js"></script>
     <script src="../js/dat.gui.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/73/three.js"></script> -->
-    <title>triangle</title>
+    <title>rect</title>
     <style>
         body {
             margin: 0;
@@ -64,25 +64,29 @@
         }
 
         function initObject() {
-
+            //矩形
             var geometry = new THREE.PlaneGeometry(200,200);
-            console.log(geometry);
-
+            //设置颜色
             var color1 = new THREE.Color(0xff0000);
             var color2 = new THREE.Color(0x00ff00);
             var color3 = new THREE.Color(0x0000ff);
             // var color4 = new THREE.Color(0x00ffff);
 
+            //geometry.faces 属性由几何体所含面组成的数组
             for (var i=0;i<geometry.faces.length;i++){
+                //循环为每个面的顶点设置颜色
                 var face = geometry.faces[i];
                 face.vertexColors[0] = color1;
                 face.vertexColors[1] = color2;
                 face.vertexColors[2] = color3;
             }
+            //材料 颜色由每个面所有顶点的颜色组成
             var material = new THREE.MeshBasicMaterial({vertexColors :THREE.VertexColors,wireframe:true})
             var mesh = new THREE.Mesh(geometry, material);
 
             scene.add(mesh)
+            console.log(geometry);
+            
 
 
         }

@@ -8,7 +8,7 @@
     <script src="../js/three103.js"></script>
     <script src="../js/dat.gui.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/73/three.js"></script> -->
-    <title>triangle2</title>
+    <title>triangle</title>
     <style>
         body {
             margin: 0;
@@ -64,17 +64,23 @@
         }
 
         function initObject() {
+            //新建几何体
             var geometry = new THREE.Geometry();
+            //三角形所需的顶点
             var p1 = new THREE.Vector3(0, 100, 0);
             var p2 = new THREE.Vector3(-100, 0, 0);
             var p3 = new THREE.Vector3(100, 0, 0);
+            //顶点所需的颜色
             var red = new THREE.Color(0xff0000);
             var green = new THREE.Color(0x00ff00);
             var blue = new THREE.Color(0x0000ff);
+            //将所有的顶点推入到几何体的顶点数组中
             geometry.vertices.push(p1);
             geometry.vertices.push(p2);
             geometry.vertices.push(p3);
+            //新建一个由3个顶点构成的面,顺序为逆时针
             var face = new THREE.Face3(0, 1, 2);
+            //面的各个顶点的颜色
             face.vertexColors[0] = red;
             face.vertexColors[1] = green;
             face.vertexColors[2] = blue;
@@ -86,7 +92,8 @@
             })
             var obj = new THREE.Mesh(geometry, material);
             scene.add(obj)
-
+            console.log(geometry);
+            
 
         }
         // function createUI() {
