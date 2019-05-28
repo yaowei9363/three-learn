@@ -61,7 +61,7 @@
 
             var onProgress = function (xhr) {
 
-                if (xhr.lengthComputable) {
+                if (xhr.lengthComputable) { 
 
                     var percentComplete = xhr.loaded / xhr.total * 100;
                     console.log(Math.round(percentComplete, 2) + '% downloaded');
@@ -141,7 +141,7 @@
             camera.position.y += (- mouseY - camera.position.y) * .1;
 
             camera.lookAt(scene.position);
-
+ 
             renderer.render(scene, camera);
 
         }
